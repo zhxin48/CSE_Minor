@@ -1,0 +1,7 @@
+nodes=108
+tetrahedra=262
+boundary_faces=212
+unique_boundary_keys=212
+max_unit_normal_error=0.0
+minimum_outward_dot=0.04999999999999993
+all_faces_have_one_owner=true

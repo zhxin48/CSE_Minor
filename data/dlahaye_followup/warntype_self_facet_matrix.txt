@@ -1,0 +1,9 @@
+MethodInstance for probe_self_face(::Tuple{Vector{Float64}, Vector{Float64}, Vector{Float64}})
+  from probe_self_face(face::Tuple{Vector{Float64}, Vector{Float64}, Vector{Float64}}) @ Main ~/CSE_Minor/src/scripts/dlahaye_followup_checks.jl:45
+Arguments
+  #self#::Core.Const(Main.probe_self_face)
+  face::Tuple{Vector{Float64}, Vector{Float64}, Vector{Float64}}
+Body::Matrix{Float64}
+1 ─ %1 =    invoke Main.:(var"#self_facet_matrix#50")(0.001::Float64, 1.0e-6::Float64, 1000000::Int64, Main.self_facet_matrix::typeof(self_facet_matrix), face::Tuple{Vector{Float64}, Vector{Float64}, Vector{Float64}})::Matrix{Float64}
+└──      return %1
+

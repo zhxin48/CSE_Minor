@@ -1,0 +1,16 @@
+MethodInstance for tet_facets(::Vector{Float64}, ::Vector{Float64}, ::Vector{Float64}, ::Vector{Float64})
+  from tet_facets(x1, x2, x3, x4) @ Main ~/CSE_Minor/src/stiffness.jl:94
+Arguments
+  #self#::Core.Const(Main.tet_facets)
+  x1::Vector{Float64}
+  x2::Vector{Float64}
+  x3::Vector{Float64}
+  x4::Vector{Float64}
+Body::NTuple{4, NTuple{4, Vector{Float64}}}
+1 ─ %1 =    invoke Main._oriented_facet(x2::Vector{Float64}, x3::Vector{Float64}, x4::Vector{Float64}, x1::Vector{Float64})::NTuple{4, Vector{Float64}}
+│   %2 =    invoke Main._oriented_facet(x1::Vector{Float64}, x4::Vector{Float64}, x3::Vector{Float64}, x2::Vector{Float64})::NTuple{4, Vector{Float64}}
+│   %3 =    invoke Main._oriented_facet(x1::Vector{Float64}, x2::Vector{Float64}, x4::Vector{Float64}, x3::Vector{Float64})::NTuple{4, Vector{Float64}}
+│   %4 =    invoke Main._oriented_facet(x1::Vector{Float64}, x3::Vector{Float64}, x2::Vector{Float64}, x4::Vector{Float64})::NTuple{4, Vector{Float64}}
+│   %5 =   builtin Core.tuple(%1, %2, %3, %4)::NTuple{4, NTuple{4, Vector{Float64}}}
+└──      return %5
+

@@ -1,0 +1,7 @@
+function,lines_containing_Any
+basis_grads,1
+tet_facets,0
+boundary_faces,0
+tet_tet_integral_num,0
+tet_tet_integral_facets,0
+self_facet_matrix,0
