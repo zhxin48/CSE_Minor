@@ -1,9 +1,13 @@
+# Unified mesh entry point: collapses "standard-mesh generation" and
+# "external-mesh loading" into a single function, load_mesh.
+#
 # 统一 mesh 入口：把「标准 mesh 生成」和「外部 mesh 加载」收敛到一个函数 load_mesh。
 include("generate_mesh.jl")
 include("read_mesh.jl")
 
 const STANDARD_MESH_PATH = joinpath(@__DIR__, "..", "data", "my_box.msh")
 
+# Return (nodes, elements) for the standard mesh or an external .msh file.
 """
     load_mesh(; filename=nothing, force=false, kwargs...) -> (nodes, elements)
 

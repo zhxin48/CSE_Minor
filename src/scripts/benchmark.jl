@@ -1,8 +1,13 @@
+# Performance benchmark: method A (6D numerical) vs method B (4D analytic
+# reduction). Scans separation distance × rtol and measures runtime and
+# relative error, to inform the hybrid strategy.
+#
 # 性能基准：方法 A（6D 数值积分）vs 方法 B（4D 解析降维）
 # 扫描不同分离距离 × 不同 rtol，测量耗时与相对误差，用于确定方法 C 的混合策略。
 include(joinpath(@__DIR__, "..", "stiffness.jl"))
 using Printf
 
+# Reference tetrahedron and a helper that returns a copy translated by t.
 ref_tet = ([0.0,0.0,0.0], [1.0,0.0,0.0], [0.0,1.0,0.0], [0.0,0.0,1.0])
 shift_tet(t) = tuple((ref_tet[i] .+ t for i in 1:4)...)
 
@@ -26,6 +31,7 @@ tet_tet_integral_facets(ref_tet, shift_tet([5.0,0,0]); rtol=1e-3)
 tet_tet_integral_facets(ref_tet, ref_tet; rtol=1e-3)
 tet_tet_integral_num(ref_tet, shift_tet([5.0,0,0]); rtol=1e-3)
 
+# Measure the minimum runtime of f over n runs (after GC), in seconds.
 function timed(f; n=3)
     ts = Float64[]
     for _ in 1:n

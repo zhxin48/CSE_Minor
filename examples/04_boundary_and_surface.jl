@@ -1,3 +1,5 @@
+# Step 4: identify boundary faces and compute the Duffy self-interaction matrix of one face.
+#
 # 第 4 步：识别边界面，并计算一个面的 Duffy 自相互作用矩阵。
 
 include(joinpath(@__DIR__, "..", "src", "stiffness.jl"))

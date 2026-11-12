@@ -1,9 +1,16 @@
+# Structured box-mesh generator (an alternative to Gmsh's Delaunay).
+# Cuts [0,lx]×[0,ly]×[0,lz] into nx×ny×nz cubes, each split by a Kuhn
+# triangulation into 6 tetrahedra, so the thickness-layer count is fully
+# controlled (a thin plate's demagnetising factor is sensitive to it, and
+# Delaunay gives sliver elements with uncontrolled thickness).
+#
 # 结构化盒体网格生成器（替代 Gmsh 的 Delaunay）。
 #
 # 把 [0,lx]×[0,ly]×[0,lz] 切成 nx×ny×nz 个立方体，每个立方体沿体对角线 (0,0,0)-(1,1,1)
 # 用 Kuhn 三角剖分拆成 6 个四面体。相比 Gmsh 的 Delaunay，厚度方向层数完全可控——
 # 薄板退磁因子对厚度分辨率很敏感，而 Delaunay 对薄板会产生 sliver 单元且厚度方向不可控。
 
+# Build an nx×ny×nz structured box mesh; returns (nodes, elements).
 function structured_box_mesh(nx, ny, nz; lx=1.0, ly=1.0, lz=0.1)
     Nn = (nx + 1) * (ny + 1) * (nz + 1)
     nodes = zeros(Float64, Nn, 3)

@@ -1,5 +1,9 @@
+# Standard-mesh generator: writes a Gmsh tetrahedral mesh of the box
+# [0, lx] × [0, ly] × [0, lz] to a .msh file. This is the "standard mesh"
+# used throughout the project; external meshes are loaded via read_mesh.
 using Gmsh
 
+# Generate the standard box mesh and write it to `filename`.
 """
     generate_box_mesh(filename; lx=1.0, ly=1.0, lz=0.1, mesh_size_min=0.2, mesh_size_max=0.5, algorithm3d=1)
 

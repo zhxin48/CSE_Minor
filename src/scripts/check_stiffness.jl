@@ -1,3 +1,5 @@
+# Verification script for the core stiffness integrals (not part of main.jl).
+#
 # 刚度矩阵核心积分的验证脚本（不集成到 main.jl）
 include(joinpath(@__DIR__, "..", "stiffness.jl"))
 

@@ -1,3 +1,6 @@
+# Main entry point: load mesh → assemble A1/A2/A and b → solve A·u = b →
+# physical verification → save the solution and write plots.
+#
 # 主入口：加载 mesh → 组装 A1/A2/A、b → 求解 A·u = b → 物理解验 → 保存 + 可视化。
 #
 # 用法：
@@ -12,6 +15,8 @@ include("surface_stiffness.jl")
 include("solve.jl")
 include("visualize.jl")
 
+# Run the complete pipeline on the standard mesh (no arguments) or on an
+# external Gmsh mesh given as ARGS[1].
 function main()
     # 1. mesh：无参数用标准 mesh，有参数加载外部 .msh
     filename = isempty(ARGS) ? nothing : ARGS[1]

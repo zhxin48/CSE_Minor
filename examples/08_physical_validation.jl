@@ -1,3 +1,5 @@
+# Topic 3: Aharoni reference quantities and physical checks of the full solution.
+#
 # 专题 3：Aharoni 参考量和完整解的物理检查。
 
 using DelimitedFiles

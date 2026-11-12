@@ -1,5 +1,7 @@
+# Gmsh .msh reader: converts a four-node tetrahedral mesh into (nodes, elements).
 using Gmsh
 
+# Read a Gmsh .msh file and return (nodes, elements).
 """
     read_mesh(filename) -> (nodes, elements)
 

@@ -1,3 +1,5 @@
+# Topic 1: multi-cell scatter, and the A-B hybrid dispatch of self/near/far interactions.
+#
 # 专题 1：多单元 scatter，以及自作用/近场/远场的 A-B 混合分派。
 
 include(joinpath(@__DIR__, "..", "src", "volume.jl"))
@@ -35,6 +37,7 @@ end
 
 # 与 assemble_stiffness! 的 hybrid2 判据一致：
 # 自作用和共享节点近场用 B；完全分离的远场用 A。
+# Choose method B for self/shared-node pairs and method A for far pairs.
 function selected_method(elements, alpha, beta)
     if alpha == beta
         return :B_self

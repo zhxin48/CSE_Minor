@@ -1,3 +1,5 @@
+# Assemble and save the three system matrices A1, A2, and A = A1 + A2.
+#
 # 组装并保存三个矩阵：
 #   A1 —— 质量矩阵 A^(1)（局部项，已除以 χ_mag）
 #   A2 —— 刚度矩阵 A^(2) = (1/4π)[VV − SV − VS + SS]
@@ -21,6 +23,7 @@ include(joinpath(@__DIR__, "..", "surface_stiffness.jl"))
 using LinearAlgebra
 using DelimitedFiles
 
+# Print summary statistics (size, sums, symmetry, smallest eigenvalue) for M.
 function print_status(name, M)
     println("=== ", name, " ===")
     println("  尺寸           = ", size(M))
@@ -35,6 +38,7 @@ function print_status(name, M)
     println()
 end
 
+# Assemble and save A1, A2, and A = A1 + A2 to data/*.txt.
 function main()
     nodes, elements = load_mesh()
     Nn = size(nodes, 1)

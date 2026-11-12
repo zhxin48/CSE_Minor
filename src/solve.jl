@@ -1,12 +1,17 @@
+# Linear solve and physical verification of the magnetisation solution.
+# Depends on volume.jl (tet_volume) being included first.
+#
 # 求解与物理解验。依赖 volume.jl（tet_volume）已先 include。
 using LinearAlgebra
 using DelimitedFiles
 
+# Solution layout: node i maps to Mx = u[3i-2], My = u[3i-1], Mz = u[3i].
 # u 布局：节点 i 对应 Mx = u[3i-2]、My = u[3i-1]、Mz = u[3i]
 Mx(u, i) = u[3i - 2]
 My(u, i) = u[3i - 1]
 Mz(u, i) = u[3i]
 
+# Solve the linear system A·u = b and report condition number and residual.
 """
     solve_system(A, b) -> u
 
@@ -22,6 +27,8 @@ function solve_system(A, b)
     return u
 end
 
+# Integrate a scalar function f (node index -> value) over the mesh, using the
+# P1 identity ∫φ_i dV = V/4, so ∫f dV = Σ_el (V_el/4) Σ_{i∈el} f(i).
 # P1 基函数上 ∫φ_i dV = V/4，故标量函数 f（节点索引 → 值）的体积分为
 #   ∫f dV = Σ_el (V_el/4) Σ_{i∈el} f(i)
 function volume_integral(f, nodes, elements)
@@ -35,6 +42,7 @@ function volume_integral(f, nodes, elements)
     return total
 end
 
+# Aharoni (1998) magnetometric demagnetising factors of a rectangular prism.
 """
     demag_factors(a, b, c) -> (Nx, Ny, Nz)
 
@@ -50,6 +58,8 @@ function demag_factors(a, b, c)
     return Nx, Ny, Nz
 end
 
+# Demagnetising factor Nz of a prism a×b×c magnetised along c (returns π·Nz;
+# divided by π at the end).
 # 棱柱 a×b×c 沿 c 轴磁化的退磁因子 Nz（返回 π·Nz，最后除 π）。
 function _demag_z(a, b, c)
     s  = sqrt(a^2 + b^2 + c^2)
@@ -68,6 +78,8 @@ function _demag_z(a, b, c)
     return t / π
 end
 
+# Run physical checks on the self-consistent solution (residual, symmetry,
+# bounds, mean Mx) and compare against the Aharoni reference.
 """
     verify_solution(A, b, u, nodes, elements; H0, chi_mag)
 
@@ -133,6 +145,7 @@ function verify_solution(A, b, u, nodes, elements; H0, chi_mag)
     return u
 end
 
+# Write the solution vector u to a text file (writedlm) for later reuse.
 """
     save_solution(u, path)
 

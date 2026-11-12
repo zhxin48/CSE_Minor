@@ -1,5 +1,7 @@
+# Basic geometry: tetrahedron volume via the scalar triple product.
 using LinearAlgebra
 
+# Volume of a tetrahedron from its four vertex coordinates.
 """
     tet_volume(x1, x2, x3, x4)
 

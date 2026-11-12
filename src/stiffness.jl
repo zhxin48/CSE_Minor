@@ -1,6 +1,9 @@
+# Volume stiffness assembly (the VV volume-divergence term) plus the shared
+# quadrature and basis helpers used by surface_stiffness.jl.
 using HCubature
 using LinearAlgebra
 
+# Simple progress bar (no third-party dependency): refresh every ~1%, newline at i == n.
 # 简单进度条（无第三方依赖）：每 ~1% 刷新一次，i==n 时换行。
 function _progress(i, n, label; width=40)
     if i == n || (n > 0 && i % max(1, n ÷ 100) == 0)
@@ -13,6 +16,7 @@ function _progress(i, n, label; width=40)
     end
 end
 
+# Gradients of the four P1 basis functions of a tetrahedron (3×4 matrix).
 """
     basis_grads(x1, x2, x3, x4)
 
@@ -29,6 +33,7 @@ function basis_grads(x1, x2, x3, x4)
     return Jinv' * grad_ref               # ∇_x φ = J^{-T} ∇_ξ φ̂
 end
 
+# Numerically integrate f over a tetrahedron via hcubature (affine map to the reference tetrahedron).
 """
     integrate_tet(f, x1, x2, x3, x4; ...)
 
@@ -54,6 +59,7 @@ function integrate_tet(f, x1, x2, x3, x4;
     return val
 end
 
+# Numerically integrate f over a triangular facet via hcubature.
 """
     integrate_tri(f, p1, p2, p3; ...)
 
@@ -76,12 +82,14 @@ function integrate_tri(f, p1, p2, p3;
     return val
 end
 
+# Return the four triangular faces of a tetrahedron, each (p1, p2, p3, unit outward normal).
 """
     tet_facets(x1, x2, x3, x4)
 
 返回四面体的 4 个三角面，每个面为 (p1, p2, p3, 单位外法向)。
 外法向用"第四顶点在面内侧"判定，与顶点顺序无关。
 """
+# Orient facet (p1, p2, p3) so its unit normal points away from `opposite_vertex`.
 function _oriented_facet(p1, p2, p3, opposite_vertex)
     n = cross(p2 - p1, p3 - p1)
     n = n / norm(n)
@@ -91,6 +99,7 @@ function _oriented_facet(p1, p2, p3, opposite_vertex)
     return (p1, p2, p3, n)
 end
 
+# Return the four oriented triangular faces of the tetrahedron.
 function tet_facets(x1, x2, x3, x4)
     # 显式列出四个面，避免运行期索引使 tuple 的元素类型退化为 Any。
     return (_oriented_facet(x2, x3, x4, x1),
@@ -99,6 +108,7 @@ function tet_facets(x1, x2, x3, x4)
             _oriented_facet(x1, x3, x2, x4))
 end
 
+# Method A: 6D numerical integration of the Coulomb double volume integral.
 """
     tet_tet_integral_num(alpha_verts, beta_verts; ...)
 
@@ -118,6 +128,7 @@ function tet_tet_integral_num(alpha_verts, beta_verts;
                          rtol=rtol, atol=atol, maxevals=maxevals)::Float64
 end
 
+# Method B: analytic reduction (Euler homogeneous-function theorem) to 16 4D facet-facet integrals.
 """
     tet_tet_integral_facets(alpha_verts, beta_verts; ...)
 
@@ -150,6 +161,7 @@ function tet_tet_integral_facets(alpha_verts, beta_verts;
     return -total / 6
 end
 
+# Map the `precision` knob to a (method, rtol, atol) triple.
 """
     _stiffness_preset(precision)
 
@@ -164,6 +176,7 @@ function _stiffness_preset(precision)
     error("未知 precision: $precision（可选 :fast / :accurate）")
 end
 
+# Return whether tetrahedra alpha and beta share at least one node.
 """
     share_node(elements, alpha, beta)
 
@@ -171,6 +184,7 @@ end
 """
 share_node(elements, alpha, beta) = !isempty(intersect(elements[alpha, :], elements[beta, :]))
 
+# Assemble the global volume stiffness matrix A^(2) (3Nn × 3Nn) into A2 in place.
 """
     assemble_stiffness!(A2, elements, nodes; precision=:fast, ...)
 

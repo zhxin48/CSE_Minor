@@ -1,9 +1,13 @@
+# Global stiffness-matrix assembly on the full mesh + structural checks.
+# Reuses assemble_stiffness! (precision=:fast = self α=β → method B, else A).
+#
 # 完整网格（262 四面体）全局刚度矩阵组装 + 结构验证。
 # 复用 assemble_stiffness!（precision=:fast = 自作用 α=β → 方法 B，其余 → 方法 A）。
 include(joinpath(@__DIR__, "..", "mesh.jl"))
 include(joinpath(@__DIR__, "..", "stiffness.jl"))
 using LinearAlgebra
 
+# Assemble A2 on the standard mesh and report symmetry, row/column sums, and statistics.
 function main()
     nodes, elements = load_mesh()
     Nn = size(nodes, 1)

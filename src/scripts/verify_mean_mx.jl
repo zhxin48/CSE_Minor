@@ -1,3 +1,6 @@
+# Verify convergence of the non-uniform solution's mean Mx. Usage:
+# julia --project=. src/scripts/verify_mean_mx.jl
+#
 # 验证：板的非均匀解 mean Mx 的收敛性。用法：julia --project=. src/scripts/verify_mean_mx.jl
 # 方法：去掉 VV（对近均匀解贡献极小，实测差 0.2%），用结构化网格扫网格尺寸看收敛趋势。
 # 结果：mean Mx 收敛到 ≈12.2（不是均匀磁化近似的 9.3）；非均匀解有效退磁因子 0.072 < 磁测 0.0975。
@@ -10,6 +13,7 @@ include(joinpath(@__DIR__, "..", "surface_stiffness.jl"))
 include(joinpath(@__DIR__, "..", "solve.jl"))
 using LinearAlgebra, Printf
 
+# Return the mean Mx of the self-consistent solution (optionally omitting the VV term).
 function mean_Mx(nodes, elements; with_vv=true)
     ndof = 3 * size(nodes, 1)
     Nn = size(nodes, 1)
@@ -29,6 +33,7 @@ function mean_Mx(nodes, elements; with_vv=true)
     return sum(u[1:3:end] .* vol) / sum(vol)
 end
 
+# Check convergence of mean Mx under mesh refinement.
 function main()
     # 先验证 6x6x2 下 VV 是否可忽略
     nodes, elements = structured_box_mesh(6, 6, 2)

@@ -1,3 +1,5 @@
+# Step 2: understand the mass matrix and load vector from one tetrahedron's local formulas.
+#
 # 第 2 步：从一个四面体的局部公式理解质量矩阵和载荷向量。
 
 include(joinpath(@__DIR__, "..", "src", "volume.jl"))

@@ -1,3 +1,5 @@
+# Step 3: compare the 6D nested integral (method A) and the Euler-reduced integral (method B).
+#
 # 第 3 步：比较 6D 嵌套积分（方法 A）和 Euler 降维积分（方法 B）。
 
 include(joinpath(@__DIR__, "..", "src", "stiffness.jl"))

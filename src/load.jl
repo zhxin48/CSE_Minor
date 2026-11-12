@@ -1,3 +1,5 @@
+# Load-vector assembly for the uniform external magnetic field.
+# Assemble the global load vector b (length 3*Nn) for H_ext = (H0, 0, 0).
 """
     assemble_load!(b, elements, nodes, H0)
 

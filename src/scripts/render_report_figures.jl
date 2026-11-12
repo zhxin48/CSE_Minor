@@ -1,3 +1,5 @@
+# Re-render the report figures (top-view magnetisation map and the four-term
+# method map) from the saved solution.
 using DelimitedFiles
 using LinearAlgebra
 using Plots

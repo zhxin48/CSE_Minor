@@ -1,3 +1,7 @@
+# Surface demagnetisation terms (Galerkin weak form of the surface magnetic
+# charge). Implements SS and the SV/VS cross terms that complete the volume
+# divergence term VV from stiffness.jl into A^(2) = (1/4π)[VV − SV − VS + SS].
+#
 # 表面退磁项（表面磁荷的 Galerkin 弱形式）。
 #
 # 完整对称弱形式的退磁刚度为
@@ -13,6 +17,7 @@
 using HCubature
 using LinearAlgebra
 
+# Find the triangular faces on the mesh boundary (owned by a single tetrahedron).
 """
     boundary_faces(elements, nodes) -> [(i, j, k, n), ...]
 
@@ -50,6 +55,7 @@ function boundary_faces(elements, nodes)
     return faces
 end
 
+# Single-layer potential matrix between two triangular facets (4D hcubature).
 """
     facet_facet_matrix(fA, fB; rtol, atol, maxevals) -> 3×3 matrix
 
@@ -81,6 +87,7 @@ function facet_facet_matrix(fA, fB;
     return S::Matrix{Float64}
 end
 
+# Signed barycentric coordinates of point r in the triangle (a1, a2, a3).
 """
     tri_barycentric(a1, a2, a3, r) -> 3-vector
 
@@ -94,6 +101,7 @@ function tri_barycentric(a1, a2, a3, r)
             dot(cross(a1 - r, a2 - r), n)] ./ n2
 end
 
+# Self single-layer potential matrix using a Duffy transform to remove the singular diagonal.
 """
     self_facet_matrix(fF; kws...) -> 3×3 matrix
 
@@ -135,6 +143,7 @@ function self_facet_matrix(fF;
     return S::Matrix{Float64}
 end
 
+# Surface-volume cross-term vector W_j = ∫∫ φ_j (r−r')·nP / |r−r'| dS dS'.
 """
     facet_facet_sv_vector(fF, fP, nP; kws...) -> 3-vector
 
@@ -166,6 +175,8 @@ function facet_facet_sv_vector(fF, fP, nP;
     return W::Vector{Float64}
 end
 
+# Accumulate the surface demagnetisation terms into A2 in place:
+# A2 += (1/4π)SS − (1/4π)(SV + SVᵀ).
 """
     assemble_surface_stiffness!(A2, elements, nodes; rtol, atol, maxevals)
 

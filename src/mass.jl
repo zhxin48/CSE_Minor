@@ -1,5 +1,7 @@
+# Mass-matrix (A^(1)) assembly for the magnetisation weak form.
 using LinearAlgebra
 
+# Local scalar mass matrix of a 4-node tetrahedron.
 """
     local_mass(V)
 
@@ -13,6 +15,7 @@ function local_mass(V)
     return Mloc
 end
 
+# Assemble the global mass matrix A1 (3Nn × 3Nn), scaled by 1/chi_mag.
 """
     assemble_mass!(A1, elements, nodes, chi_mag)
 

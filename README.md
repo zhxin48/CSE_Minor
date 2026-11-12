@@ -1,6 +1,5 @@
 # Magnetized Metallic Plate
 
-Chinese comments will be replaced to English ones before 09.11.2026(Monday) --Sam on 06.11.2026
 Run all commands from the project root. `Project.toml` and `Manifest.toml` must be present.
 
 ## Install the Julia environment

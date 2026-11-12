@@ -1,3 +1,7 @@
+# Thin-plate demagnetisation convergence test: on a structured mesh (nz layers
+# in the thickness direction), compute the discrete demagnetising factor Nx and
+# compare it with the Aharoni analytic value.
+#
 # 薄板退磁收敛测试：用结构化网格（厚度方向 nz 层）算离散退磁因子 Nx，与 Aharoni 解析对比。
 #
 # 只算表面项 SS + SV（均匀 M 时 VV=0），所以比全流程快很多。
@@ -12,6 +16,7 @@ include(joinpath(@__DIR__, "..", "solve.jl"))
 using LinearAlgebra
 using Printf
 
+# Discrete demagnetising factor Nx from the surface terms only (uniform M ⇒ VV = 0).
 function discrete_Nx(nodes, elements)
     ndof = 3 * size(nodes, 1)
     Nn = size(nodes, 1)
@@ -28,6 +33,7 @@ function discrete_Nx(nodes, elements)
     return sum(w[1:3:end]) / sum(vol)
 end
 
+# Print Nx_discrete vs Nx_Aharoni for increasing thickness resolution.
 function main()
     chi = 100.0
     Nx_a = demag_factors(1.0, 1.0, 0.1)[1]          # Aharoni 解析 Nx

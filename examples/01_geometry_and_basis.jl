@@ -1,3 +1,5 @@
+# Step 1: understand a single tetrahedron only — no global mesh or linear system.
+#
 # 第 1 步：只理解一个四面体，不涉及全局网格或线性系统。
 
 include(joinpath(@__DIR__, "..", "src", "volume.jl"))

@@ -1,3 +1,5 @@
+# Topic 2: structured meshes, Gmsh meshes, and boundary faces.
+#
 # 专题 2：结构化网格、Gmsh 网格和边界面。
 
 include(joinpath(@__DIR__, "..", "src", "structured_mesh.jl"))

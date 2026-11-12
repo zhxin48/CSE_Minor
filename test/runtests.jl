@@ -1,6 +1,10 @@
+# Test suite: geometry, local assembly, type stability, HCubature, Euler
+# reduction, and Duffy integration.
 using Test
 using LinearAlgebra
 
+# `@__DIR__` is the directory of this file; `joinpath` makes the path work on
+# both Linux and Windows.
 # `@__DIR__` 是当前文件所在目录；`joinpath` 让路径同时适用于 Linux/Windows。
 src = joinpath(@__DIR__, "..", "src")
 include(joinpath(src, "volume.jl"))

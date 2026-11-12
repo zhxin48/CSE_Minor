@@ -1,3 +1,5 @@
+# Detailed diagnostics: type-stability audit, nested HCubature cost, boundary
+# face extraction, and field-component plots.
 using DelimitedFiles
 using HCubature
 using InteractiveUtils
@@ -19,12 +21,14 @@ ref_tet = ([0.0, 0.0, 0.0], [1.0, 0.0, 0.0],
            [0.0, 1.0, 0.0], [0.0, 0.0, 1.0])
 shift_tet(t) = tuple((ref_tet[i] .+ t for i in 1:4)...)
 
+# Return the code_warntype output for f called with argtypes, as text.
 function warntype_text(f, argtypes)
     io = IOBuffer()
     code_warntype(io, f, argtypes; debuginfo=:none, optimize=true)
     return String(take!(io))
 end
 
+# Write warntype output to a file and return the number of lines containing Any.
 function write_warntype(name, f, argtypes)
     txt = warntype_text(f, argtypes)
     write(joinpath(outdir, "warntype_$(name).txt"), txt)

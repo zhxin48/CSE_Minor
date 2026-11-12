@@ -1,3 +1,6 @@
+# Step 5: run the full pipeline on a single tetrahedron, so the first
+# reproduction does not wait for the full plate mesh.
+#
 # 第 5 步：用单个四面体走完整流程，避免第一次复现就等待完整板网格。
 
 include(joinpath(@__DIR__, "..", "src", "volume.jl"))

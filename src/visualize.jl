@@ -1,6 +1,10 @@
+# Visualisation: mesh wireframe + magnetisation field, via Plots (gr backend)
+# writing static PNGs.
+#
 # 可视化：mesh 线框 + 磁场分布。用 Plots（gr 后端），输出静态 PNG。
 using Plots
 
+# Extract all unique edges of the tetrahedral mesh (6 edges per tetrahedron).
 # 提取四面体网格的所有唯一边（每个四面体 6 条边）。
 function mesh_edges(elements)
     edges = Set{Tuple{Int,Int}}()
@@ -13,6 +17,7 @@ function mesh_edges(elements)
     return collect(edges)
 end
 
+# Expand unique edges into NaN-separated path coordinates (Plots :path breaks segments at NaN).
 # 把唯一边展开成带 NaN 分隔的路径坐标（Plots :path 用 NaN 断段）。
 function _edge_segments(nodes, edges)
     xs = Float64[]; ys = Float64[]; zs = Float64[]
@@ -24,6 +29,7 @@ function _edge_segments(nodes, edges)
     return xs, ys, zs
 end
 
+# Draw a 3D wireframe of the tetrahedral mesh and save it as PNG.
 """
     plot_mesh(nodes, elements; out="plots/mesh.png")
 
@@ -41,6 +47,7 @@ function plot_mesh(nodes, elements; out=joinpath(@__DIR__, "..", "plots", "mesh.
     println("Mesh 图已保存：", out)
 end
 
+# Plot the magnetisation field: 3D quiver + top-view scatter coloured by |M|.
 """
     plot_field(nodes, elements, u; out="plots/field.png")
 
