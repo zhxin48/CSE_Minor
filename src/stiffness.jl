@@ -195,9 +195,12 @@ function assemble_stiffness!(A2, elements, nodes; precision=:fast, method=nothin
     atol   = atol   === nothing ? a0 : atol
 
     Ne = size(elements, 1)
-    total = Ne * Ne
+    # I_{alpha,beta} = I_{beta,alpha}. 只计算无序单元对一次，再把转置贡献
+    # 写入矩阵另一半。这样既少做一次自适应积分，也保证离散双线性型严格对称，
+    # 不会让两次独立积分的误差表现为 A2 != A2'.
+    total = Ne * (Ne + 1) ÷ 2
     iter = 0
-    for alpha in 1:Ne, beta in 1:Ne
+    for alpha in 1:Ne, beta in alpha:Ne
         iter += 1
         _progress(iter, total, "A^(2) 体积项 VV")
         # 取 α、β 的 4 个顶点坐标
@@ -242,6 +245,9 @@ function assemble_stiffness!(A2, elements, nodes; precision=:fast, method=nothin
         gdof_b = [3 * inode_b[j] - 3 + b for j in 1:4 for b in 1:3]
         for ii in 1:12, jj in 1:12
             A2[gdof_a[ii], gdof_b[jj]] += Kloc[ii, jj]
+            if alpha != beta
+                A2[gdof_b[jj], gdof_a[ii]] += Kloc[ii, jj]
+            end
         end
     end
     return A2

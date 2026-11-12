@@ -8,6 +8,7 @@ include(joinpath(src, "mass.jl"))
 include(joinpath(src, "load.jl"))
 include(joinpath(src, "stiffness.jl"))
 include(joinpath(src, "surface_stiffness.jl"))
+include(joinpath(src, "solve.jl"))
 
 const X1 = [0.0, 0.0, 0.0]
 const X2 = [1.0, 0.0, 0.0]
@@ -74,4 +75,18 @@ end
         rtol=1e-2, atol=1e-8, maxevals=100_000)
     @test surface_result === A2
     @test all(isfinite, A2)
+    @test issymmetric(A2)
+end
+
+@testset "analytic and physical invariants" begin
+    # A cube is isotropic, while every rectangular prism must satisfy the
+    # magnetometric sum rule Nx + Ny + Nz = 1.
+    @test collect(demag_factors(1.0, 1.0, 1.0)) ≈ fill(1 / 3, 3) rtol=1e-12
+    factors = @inferred demag_factors(1.0, 1.0, 0.1)
+    @test sum(factors) ≈ 1.0 atol=1e-12
+    @test all(0 .< factors .< 1)
+
+    nodes = reduce(vcat, transpose.(REF_TET))
+    elements = reshape([1, 2, 3, 4], 1, 4)
+    @test volume_integral(_ -> 1.0, nodes, elements) ≈ 1 / 6
 end

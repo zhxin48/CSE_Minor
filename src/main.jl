@@ -47,6 +47,7 @@ function main()
     save_solution(u, joinpath(datadir, "u.txt"))
     plot_mesh(nodes, elements; out=joinpath(plotdir, "mesh.png"))
     plot_field(nodes, elements, u; out=joinpath(plotdir, "field.png"))
+    plot_field_components(nodes, elements, u; outdir=plotdir)
 end
 
 main()

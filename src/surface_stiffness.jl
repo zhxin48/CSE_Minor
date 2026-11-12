@@ -188,9 +188,11 @@ function assemble_surface_stiffness!(A2, elements, nodes; rtol=1e-4, atol=1e-8, 
     face_n      = [bfaces[a][4] for a in 1:Nf]
 
     # --- SS：面-面单层位势 ---
-    total_ss = Nf * Nf
+    # S_BA = S_AB'. 只积分无序面面对，然后显式装配转置块，避免两次
+    # 自适应积分产生略有不同的结果而破坏全局矩阵的理论对称性。
+    total_ss = Nf * (Nf + 1) ÷ 2
     iter = 0
-    for a in 1:Nf, b in 1:Nf
+    for a in 1:Nf, b in a:Nf
         iter += 1
         _progress(iter, total_ss, "表面项 SS")
         S = if a == b
@@ -198,11 +200,18 @@ function assemble_surface_stiffness!(A2, elements, nodes; rtol=1e-4, atol=1e-8, 
         else
             facet_facet_matrix(face_coords[a], face_coords[b]; rtol=rtol, atol=atol, maxevals=maxevals)
         end
+        a == b && (S = (S + S') / 2)
         for m in 1:3, n in 1:3
             gA = face_nodes[a][m]
             gB = face_nodes[b][n]
             for cA in 1:3, cB in 1:3
-                A2[3*(gA-1)+cA, 3*(gB-1)+cB] += inv4pi * face_n[a][cA] * face_n[b][cB] * S[m, n]
+                row = 3*(gA-1)+cA
+                col = 3*(gB-1)+cB
+                val = inv4pi * face_n[a][cA] * face_n[b][cB] * S[m, n]
+                A2[row, col] += val
+                if a != b
+                    A2[col, row] += val
+                end
             end
         end
     end
