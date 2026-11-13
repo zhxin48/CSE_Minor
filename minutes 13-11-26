@@ -16,3 +16,41 @@ Which people need to work on the 1d to 3d part, only the people who dont underst
 that would mean one of jordans task would go to isanne or maartje. Integro is a big part o understand the 3D, building 1D Integro-differential equation matrix,
 and everyone should at least do some julia, 
 Sam has a few get to know julia examples in the github 
+
+About the kernel, we do not do 1/r too difficult
+Jordan can replace kernel 1 with kernel r
+
+extension 1d to 3d, 3d scalar first (suggenstion domenico), Helen did a 3d for the integro she could expand it because sam has already definef the 
+3D one doing a scalar and then to vector. 
+???make poisson equation 
+
+you go from 1d to 3d and you also go from scalar to vectro, you could add an intermiadete step, 
+- stay 1d along the line 2.4 make it u1 and u2 stay spacially one dimension with the scalarfield u1 and u2
+- remain scalar u only has one leg/ component, but replace x by x,y,z and going to 3d 
+- or do both at the same time 
+
+in the bottum up the three in between steps can be implemented. 
+
+Worry about keeping veryobody happy, do try to fill in  more details in the task table lol no acctually define the tasks in a better way. 
+
+Mesh gneration: now very simple, point equally divided on the line, limited to linear function, with constant distance. Implement Ferrite into this, because that can connect the bottum up to top down.  Dont 
+make the mesh yourself 
+
+Buildinf 1d integro differnteital matrix: missing the kernel, its been done by jordan with kernel 1 and not. What is bottlenech with kernel dependend on spatial: 1/r is due to singularity diffucult, with r is much
+more doable 
+
+check refernce solution: if dominco gives this is should be easy enough
+
+Analytical properties: sam looks into condiotion number of the matrix, suggestion make graph of the eigenvalues of the matrix at least in one dimension and especcialy huow they change if the mesh gets finer 
+3d will remain to be difficult? if youbake problems very large there might be optimization tricks, details later. replace condition numbers by eigenvalues if its feasible to do the computation of those eigenvalue
+
+extedn 1d to 3d: you can use pieces from 1 to 3d direclty if you use ferrite. 
+
+for sources: the book od harrison method of moments book in project description, helen had trouble navigation because it was mostly about EM waves, and not really magnetostatics. 
+paper by morandi on method of moments
+
+todo 
+work out the bottom up appoach more details
+domeinco will wprk about more feedback about topdowm, avoid using hcubature for the assemly of the matrix
+
+
