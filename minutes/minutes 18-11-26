@@ -6,10 +6,38 @@ Vandaag te bespreken:
 Structuur vergaderingen 
   Agenda
     Standaard dingen op de agenda 
+    Every meeting is minuted by maartje, agenda wednesday is made on monday with everyone input. Agenda for monday is made by Helen. Everyone reads the agenda before the meeting. 
   minutes lezen
+    If you werent there read the minutes. Ask questions if necessary. If you were there scan through them. 
   wvttk indienen
+    A.O.B if something comes up during the meeting, tell maartje or bring it up  well discuss later. 
+  Communicate if you will be present. 
+   Meeting dominico ill aslo minute, no agenda necessary. If maartje not present figure out who minutes. Else trek een bak 
+
 Taakverdeling nalopen 
   comments vorige minutes op bottum up
+    Previous commnts are implemented in final version report A by helen
   Top dowm nog niet ontvangen 
+    We dont know. 
+  Everyone knows their task we will walk through them just a bit. 
+    ySam: Ferrite/ mesh generation: this week ferrite.gl first. How are the iterators going. Is it possible to replace some of the current code with the feriite package. Especially iterator/bookkeeping. 
+          Non-local integration: get some solution for the very questions propoesed why is 4d slower than 6d. Hell work on this later. 
+    Isanne: 1D mesh gen: Figure out how to, look into how ferrite works and how to iimplement it into bottom up. Look at ferritte package get to know. 
+          Reference solutions: Look into the anaylitacal solution by us and domincos report. get a feel for those how they were found and what type of source functions. invertatiseer what er nu al is aan refernce
+              and maybe as well we stiill need. 
+    Helen: 6D to 3D: using Eluer reduction, look into mathematical ways, use Eugense paper and find more sources. Duffy transformation look into that. Eugene paper: how do we fix the problem of 6D integrals. 
+                    Look into that and the mathematical ways to work around this 6D integral. Turn higher dimension integral in sum of lower dimension integral and you need duffy to turn it into differnt kind of
+                    integrals??? you do that :)
+    Jordan: Building 1d Intogro differntial: he already implemented the matrix in code. Dominico made analytical solution to compare to, but not al are correct, so no real good comparison. 
+            "Question: about his analytical solution 3 and 4 what is going on? analytiocal solution doenst line up with code" (for kernel 'r') He can now try to implement kernel 1/r wich we will eventually use in 
+            the project, the matrix is made but needs to be analytically checked with correct solution for both kernels. 
+            Parallesion: going through sams code, but sam doesnt thhink it is capable of paralization. But still look into it. make notes and explanition while going through it. 
+    Maartje: Analytical propery: GFet the eigenvalues of the matrix and see how they change on a finer mesh. Code this in Julia. for smaal matrix find by hand, and then code how it scales on larger mesh. Do the 
+                                stifeness there are to a empty (nonhomogenous poisson) and dense one (intorgro) and a mass matrix (the +au term)
+            1d to 3d: i dont know yet, look into how to grasp this and break it up into pieces to solve
+    Dion: Anaylytical 3D matrices: found analytival solution for 1/r, look into symmetrices of the matrix. other task follows from analytical properties. k squared out of the matrix 
+
 Inhoudelijke snelle pass by (mindmap op bord?) 
 Beetje Github essentiele dingen nalopen
+  everyone is in. Sams code you have to clone. You have to use issues. Maartje and helen dont really dont understand it all  but well get there 
+
