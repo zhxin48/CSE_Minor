@@ -1,21 +1,35 @@
-Agenda Minor Project meeting
-Datum:
-Aanwezig:
+Agenda Minor Project meeting 3
+Datum: 23/11/26
+Aanwezig:Dion, Helen, Sam, Maartje, Isanne, Jordan(online)
 
 1. Updates/Progress
 2. Agendapunten:
     a. Progress report:
-        Bottom up
+        Bottom up:
+            Maartje: nothing
+            Isanne: Did some stuff, mostly looked into ferrite and made a separate file, generate grid using ferrite. WHat is mesh generation doing in the backend: quite easy most difficult is differnt functions for differnt 
+                    dimenision. but in 1D not that difficult
+            Jordan: made code for 1D readable with comments, didnt use ferrite, used evenly spaced points 
         Top-down
+            Helen: Looked into eugenes paper. it introduces euler very nicely, rosencarmac theorem lets you consider complacited function homogenous so ueuler functin can be used. Euler theorem simplifies nabla
+            and lets u use divergence theorem which is dimesion reduction. Paper isnt finished end with 15 integrals to be evaluated. 
+            Dion: In our paper we had 2D equations and he solved 2 of those. 
+            Sam:replaced manual bookkeeping to ferrite and looked into benchmarking, time cost most is in hcubature, so redcuing dimenisions is most important. Replace mesh topology and use cell iterator 
+                exterior faces identifacation and replace calculation outeward normal vector calcutlation and degree freedom, it is saved in ferrite. Mass matrix etc can be replaced with ferrite but doenst increase efficient
+                Dont replace wth ferrite: 1. hcubature makes it slower.  2. cell-cell cell-facet dont replace with ferrite also slower, if you want to replace it camouiflage it into ferrite function but that is not as efficient 
+                (dominico want sus to do this though so discuss. 3. dense non local storge shouldnt be replaced 
     b. Sam's code
+        we look at it wednesday, in the src folder 
         
 
 
 3. Vragen Domenico
+    - Cell-Cell cell-facet is much slower using ferrite but did you want us to do it vua ferrite anyway
+    - Eugene paper isnt finished, ends with differttn integrals. Are all these 15 integrals used? 
 4. WVtTK
 5. ToDo's 
     Maartje:
-    Isanne:
+    Isanne: Replicate what jordan did using ferrite? Look into 2D and 3D for ferrite. try to get tethrahedron to work? 
     Sam:
     Dion:
     Jordan:
