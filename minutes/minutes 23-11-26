@@ -25,7 +25,9 @@ Aanwezig:Dion, Helen, Sam, Maartje, Isanne, Jordan(online)
 
 3. Vragen Domenico
     - Cell-Cell cell-facet is much slower using ferrite but did you want us to do it vua ferrite anyway
+        Sam did some benchmarking for nonlocal pair loops replacing with ferrite is not a very good idea, sam will write a report and send it to domenico 
     - Eugene paper isnt finished, ends with differttn integrals. Are all these 15 integrals used? 
+        Not all of them are required, but we dont know which ones are needed. 
 4. WVtTK
 5. ToDo's 
     Maartje: hihihi
@@ -34,3 +36,63 @@ Aanwezig:Dion, Helen, Sam, Maartje, Isanne, Jordan(online)
     Dion:
     Jordan:
     Helen: 
+
+
+Meeting Domenico 
+github page in the report: is there for the code in 3d already. we are currently adding code for 1D and 2D. 
+what code is avalaible in 1D : jordans code. all the code for the 1d solving. integor done with kernel constant and kernel distance. (absolute value between location)
+Also confused about last page of the report, about what everyone will be doing for the rest of the project. 
+What needs to be done in 1D(not yetclear pathway): 
+    -create a mesh with ferrrite (Isanne has already done that)
+    -
+
+Domenico's input: 
+
+        - problem formulation K(x,x') = abs(x-x') (1) and K(x,x') = 1/abs(x-x') (2)
+        - Sam has a solution with duffy transformation 
+        - the report is hard to grade because it is now unclear, report is an intermediate step in understanding this project. 
+        - domenicos says stay in 1D? for next time can we expand the table of what needs to be done. 
+        - helen talks about the full reduction shes working on. does it make sense to do it in 1d first, for helen not because she can already immedielat for 3d, waste of time otherwise. 
+        - next step 3d approach: have a method to fully reduce the integrals 'in 3d approach there are 3 type of integrals computed, volume ss vs, what are these integrals how do we use them in dimension and how do we go about the implementation.' eugene report complex how far along the report are you, halfway though the report. remains vague to domenmico 
+        - WHat does he want: something easy enough as a 1d example that seems more manegable. A more clear roadmap. what happens with x equal to 0. 
+        
+    - i think we are very much as we go and dominco has probavly got a better overview to the entire project, dominco discovers: 
+        - int 1/abs(x) = log(absx) diverges
+        - int 1/sqrt(x) = 2sqrt(x) convergende
+        - this is the case for 1d for 3d this 1/x does work? 
+        - he doesnt know everything, yes there is some disagreeance. 
+
+    - bottom up approach done step by step. 
+        problem formulation
+        weak form
+        refernce solutions 
+        by pen and paper 
+
+        mesh 
+        asswmbly 
+        solve 
+        plot 
+    find an approach to do this and then it is easy to scale up. this is already done for kernel version 1, but we need to extend it to with a singluarty but it does converge. use kernel 1/(sqrt(x-x')) otherwise it doesnt work for 1D
+    it does work for 3D. we want to see for the issue with the kernel. 
+    another confusion 76 eq in report and then later 108 unknown are mx my and mz three ewuationd for three unknowns. but there is 2 unkowns for 1 equation. how to mimic 108 in one dimension. do a problem where you have 2 scalar unknowns
+
+    can we make vectrovalued in 1 spatial dimenison
+
+    Common approach to say that we have 2 species in a 1d environment
+    (analogy with O2 n1 and CO2 n2)
+    2 constitutive relations:
+        poisson for n1
+        poisson for n2
+    2 differential equations that have some relation to each other. (In this case not spatial but constitutive)
+
+    1D scalar -> 1D vector & 3D scalar -> 3d vector
+
+    references: aside from his slides not really a textbook on FEM. Domenico will provide a textbook. 
+    extend 4.2 with the points metioned earlier. 
+    6D dimension reduction, how to implement in a 1D case, how do you treat singular integrals, reduction is a way to handle singularity 
+    1D scalar case a lot of mathemtics which helen also wrote down. 
+
+    Conclusion: build 1d scalar etc to 3d vector. 
+        When describing the bottom up appraoch it is short so give more details. 
+
+
