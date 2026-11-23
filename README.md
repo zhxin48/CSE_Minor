@@ -1,6 +1,7 @@
 # Magnetized Metallic Plate
 
-Run all commands from the project root. `Project.toml` and `Manifest.toml` must be present.
+Run all commands from the project root. Only `Project.toml` is shared by Git;
+each user resolves a local `Manifest.toml`, which is intentionally ignored.
 
 ## Install the Julia environment
 
@@ -8,7 +9,40 @@ Run all commands from the project root. `Project.toml` and `Manifest.toml` must 
 julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
 ```
 
-Installs the exact package versions recorded in `Manifest.toml` and precompiles them.
+Resolves versions allowed by the compatibility bounds in `Project.toml`, creates
+a local `Manifest.toml`, and precompiles the packages.
+
+If an old local environment cannot be resolved, delete only the local manifest
+and run the command again:
+
+```bash
+rm -f Manifest.toml
+julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
+```
+
+## Use the interactive Julia terminal
+
+Start Julia from the WSL shell with this project active:
+
+```bash
+cd /home/xin/CSE_Minor
+julia --project=.
+```
+
+Then enter Julia commands at the `julia>` prompt:
+
+```julia
+using Pkg
+Pkg.instantiate()
+Pkg.precompile()
+include("src/main.jl")
+main(["--backend=ferrite"])
+```
+
+Use `main(["--backend=legacy"])` for the complete hand-written fallback, or
+`main(["--backend=ferrite", "path/to/mesh.msh"])` for an external mesh. Run
+`exit()` or press `Ctrl-D` to leave Julia. Shell commands such as
+`julia --project=.` must be entered before the `julia>` prompt, not inside it.
 
 ## Run the tests
 
