@@ -13,6 +13,8 @@ include(joinpath(src, "load.jl"))
 include(joinpath(src, "stiffness.jl"))
 include(joinpath(src, "surface_stiffness.jl"))
 include(joinpath(src, "solve.jl"))
+include(joinpath(src, "ferrite_assembly.jl"))
+include(joinpath(src, "backends.jl"))
 
 const X1 = [0.0, 0.0, 0.0]
 const X2 = [1.0, 0.0, 0.0]
@@ -42,6 +44,50 @@ const FAR_TET = tuple((x .+ [5.0, 0.0, 0.0] for x in REF_TET)...)
     @test length(faces) == 4
     @test all(dot(face[4], nodes[face[1], :] - nodes[setdiff(1:4, collect(face[1:3]))[1], :]) > 0
               for face in faces)
+end
+
+@testset "Ferrite bookkeeping and backend compatibility" begin
+    # 两个四面体共享一个内部三角面；真正的外边界应只剩六个三角面。
+    nodes = [
+        0.0 0.0  0.0
+        1.0 0.0  0.0
+        0.0 1.0  0.0
+        0.0 0.0  1.0
+        0.0 0.0 -1.0
+    ]
+    elements = [1 2 3 4; 1 3 2 5]
+    chi_mag = 2.0
+    H0 = 3.0
+
+    problem = ferrite_problem(nodes, elements)
+    ferrite_A1, ferrite_b = assemble_ferrite_material_load(
+        problem; chi_mag=chi_mag, H_ext=(H0, 0.0, 0.0))
+
+    reference_A1 = zeros(15, 15)
+    reference_b = zeros(15)
+    assemble_mass!(reference_A1, elements, nodes, chi_mag)
+    assemble_load!(reference_b, elements, nodes, H0)
+    @test Matrix(ferrite_A1) ≈ reference_A1 atol=1e-15
+    @test ferrite_b ≈ reference_b atol=1e-15
+
+    boundary = ferrite_boundary_diagnostics(problem)
+    @test boundary.facet_count == 6
+    @test boundary.area > 0
+    @test norm(boundary.normal_integral) < 1e-14
+
+    legacy_backend = LegacyBackend(nodes, elements)
+    ferrite_backend = FerriteBackend(nodes, elements)
+    @test isconcretetype(eltype(ferrite_backend.cells))
+    @test isconcretetype(eltype(ferrite_backend.boundary))
+    @test Set(Tuple(sort(collect(face.nodes))) for face in legacy_backend.boundary) ==
+          Set(Tuple(sort(collect(face.nodes))) for face in ferrite_backend.boundary)
+
+    legacy_A1, legacy_b = assemble_backend_material_load(
+        legacy_backend; chi_mag=chi_mag, H_ext=(H0, 0.0, 0.0))
+    backend_A1, backend_b = assemble_backend_material_load(
+        ferrite_backend; chi_mag=chi_mag, H_ext=(H0, 0.0, 0.0))
+    @test legacy_A1 ≈ backend_A1 atol=1e-15
+    @test legacy_b ≈ backend_b atol=1e-15
 end
 
 @testset "type-stable quadrature kernels" begin

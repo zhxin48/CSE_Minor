@@ -32,15 +32,45 @@ Generates the default Gmsh tetrahedral mesh at `data/my_box.msh`.
 julia --project=. src/main.jl
 ```
 
-Assembles and solves the full system, then writes `data/u.txt` and images to `plots/`.
+Uses the Ferrite bookkeeping backend by default, assembles and solves the full
+system, then writes `data/u.txt` and images to `plots/`.
+
+The Ferrite backend manages mesh topology, vector degrees of freedom, cells,
+exterior facets, outward normals, and local-to-global mappings. The established
+HCubature, Euler, and Duffy integration kernels remain project-specific.
+
+## Select the bookkeeping backend
+
+```bash
+# Default: Ferrite Grid, topology, DofHandler, CellIterator, and FacetIterator
+julia --project=. src/main.jl --backend=ferrite
+
+# Complete pre-migration path: hand-written DOFs, boundary_faces, and assembly
+julia --project=. src/main.jl --backend=legacy
+```
+
+`legacy` is a genuine fallback: it calls the original `assemble_mass!`,
+`assemble_load!`, `assemble_stiffness!`, and `assemble_surface_stiffness!`
+functions without constructing Ferrite data structures.
 
 ## Solve with an external mesh
 
 ```bash
-julia --project=. src/main.jl path/to/mesh.msh
+julia --project=. src/main.jl --backend=ferrite path/to/mesh.msh
+julia --project=. src/main.jl --backend=legacy path/to/mesh.msh
 ```
 
 Runs the complete solver using a four-node tetrahedral Gmsh mesh.
+
+## Inspect the Ferrite bookkeeping layer
+
+```bash
+julia --project=. examples/09_ferrite_bookkeeping.jl
+```
+
+Prints the Ferrite cell, DOF, exterior-facet, area, and closed-surface normal
+diagnostics and compares the Ferrite material/load assembly with the original
+implementation.
 
 ## Solve on a structured mesh
 
