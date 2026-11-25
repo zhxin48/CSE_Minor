@@ -1,0 +1,41 @@
+Agenda Minor Project meeting 4
+Datum: 25/11/26
+Aanwezig: Jordan, Sam, Dion, Maartje Isanne (online) 
+
+1. Updates/Progress
+  - Dion: maybe delay sams presentation of his code and reallocate for this week, final report document is created
+  - Sam: finished presentation about his code 
+  - Maartje: looked into first point about the eigenvalues 
+  - Jordan: realllyyyy want small talk. 
+2. Agendapunten:
+    a. feedback dominco 
+        - Kernel input: for 1/x doesnt converge proof that. conditial convergence: 1/sqrt(x) * 1/sqrt(x) = 1/x  if you prove 1/sqrt(x) is convergt proof the prioduct is contiianol convergence. but it is convergent 
+          on 0. Find some more out 
+        - Dominco wants everything to be implemented in code. 
+        - Dion is getting bored in 1D, there new to learn there it doenst stimulate him. 
+        - Sam: makes a list to allocate bottom up tasks so we can get the rest out of bottom up as quickly as possible. for al only the integro equation
+              a. singularty in kernels 1D scalar 1/sqrt(x) and 1/x
+              b. 1D vector with the singularity kernel 
+              c. 3D scalar with singulartiy 
+              d. 3D vector with singularity 
+              e. implemnetation in julia. 
+              f. benchmark ferrite, combine codes
+    b. Sams code 
+    
+
+3. Vragen Domenico
+4. WVtTK
+5. ToDo's 
+    Maartje: singularity in kernels 1D scalar 1/sqrt(x) and 1/x, implementation issue because infinty in , analytically 1/x doesnt converge. sum 1/r power of pi. geet a general singularity app
+    Isanne:3D scalar with singulartiy in integro differential 
+    Sam:benchmark ferrite, combine codes
+    Dion:1D vector with the singularity kernel
+    Jordan: implemnetation in julia. 
+    Helen: 3D vector with singularity 
+
+6. rondvraag
+  Dion: the riemann hypothesis uses a lot of infinities 
+  Isanne: Chess world tournament started 
+  Sam: scandanavian people understand frysian but dion knew +1 
+  Jordan: galaxy which its arms rotated the opposite way of the core
+  Maartje: Silliest thing done while drunk: 
